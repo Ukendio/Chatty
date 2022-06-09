@@ -26,11 +26,11 @@ export namespace Chatty {
 	}
 
 	export function addFlair(
-		override: WritableInstanceProperties<CreatableInstances["TextChatMessageProperties"]>,
+		fn: (msg: TextChatMessage) => WritableInstanceProperties<CreatableInstances["TextChatMessageProperties"]>,
 	): Chatty {
-		const props = new Instance("TextChatMessageProperties");
-
 		TextChatService.OnIncomingMessage = (msg) => {
+			const props = new Instance("TextChatMessageProperties");
+			const override = fn(msg);
 			if (msg.TextSource) {
 				for (const [name, val] of pairs(override)) {
 					props[name] = val as never;
