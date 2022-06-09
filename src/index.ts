@@ -1,9 +1,12 @@
+import { TextChatService } from "@rbxts/services";
+
 export namespace Chatty {
 	export function createCommands<T extends { [commandName: string]: (src: TextSource, msg: string) => void }>(
 		commands: T,
 	): void {
-		for (const [commandName, fn] of commands as unknown as Map<string, Callback>) {
+		for (const [commandName, fn] of pairs(commands as unknown as Map<string, Callback>)) {
 			const command = new Instance("TextChatCommand");
+			command.Parent = TextChatService;
 
 			const aliases = string.split(commandName, "/");
 			const prefix = "/";
