@@ -1,6 +1,6 @@
 {
 	"name": "@rbxts/chatty",
-	"version": "0.0.3-a.5",
+	"version": "0.0.3-a.6",
 	"description": "",
 	"main": "out/init.lua",
 	"scripts": {
