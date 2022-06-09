@@ -6,10 +6,12 @@ export namespace Chatty {
 			const command = new Instance("TextChatCommand");
 
 			const aliases = string.split(commandName, "/");
-			command.PrimaryAlias = aliases[0];
+			const prefix = "/";
+
+			command.PrimaryAlias = prefix + aliases[0];
 
 			if (aliases.size() > 1) {
-				command.SecondaryAlias = aliases[1];
+				command.SecondaryAlias = prefix + aliases[1];
 			}
 
 			command.Triggered.Connect(fn);
