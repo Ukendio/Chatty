@@ -26,7 +26,9 @@ export namespace Chatty {
 	}
 
 	export function addFlair(
-		fn: (msg: TextChatMessage) => WritableInstanceProperties<CreatableInstances["TextChatMessageProperties"]>,
+		fn: (
+			msg: TextChatMessage,
+		) => Partial<WritableInstanceProperties<CreatableInstances["TextChatMessageProperties"]>>,
 	): Chatty {
 		TextChatService.OnIncomingMessage = (msg) => {
 			const props = new Instance("TextChatMessageProperties");
