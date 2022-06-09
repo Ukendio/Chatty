@@ -1,9 +1,11 @@
 import { TextChatService } from "@rbxts/services";
 
+export type Chatty = typeof Chatty;
+
 export namespace Chatty {
 	export function createCommands<T extends { [commandName: string]: (src: TextSource, msg: string) => void }>(
 		commands: T,
-	): void {
+	): Chatty {
 		for (const [commandName, fn] of pairs(commands as unknown as Map<string, Callback>)) {
 			const command = new Instance("TextChatCommand");
 			command.Parent = TextChatService;
@@ -19,5 +21,24 @@ export namespace Chatty {
 
 			command.Triggered.Connect(fn);
 		}
+
+		return Chatty;
+	}
+
+	export function addFlair(
+		override: WritableInstanceProperties<CreatableInstances["TextChatMessageProperties"]>,
+	): Chatty {
+		const props = new Instance("TextChatMessageProperties");
+
+		TextChatService.OnIncomingMessage = (msg) => {
+			if (msg.TextSource) {
+				for (const [name, val] of pairs(override)) {
+					props[name] = val as never;
+				}
+			}
+			return props;
+		};
+
+		return Chatty;
 	}
 }
