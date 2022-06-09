@@ -19,7 +19,14 @@ export namespace Chatty {
 				command.SecondaryAlias = "/" + aliases[1];
 			}
 
-			command.Triggered.Connect(fn);
+			command.Triggered.Connect((src, msg) => {
+				let prefix_length = 2;
+				if (string.find(msg, command.PrimaryAlias)[0] !== undefined) {
+					prefix_length = command.PrimaryAlias.size();
+				} else prefix_length += command.SecondaryAlias.size();
+
+				fn(src, string.sub(msg, prefix_length));
+			});
 		}
 
 		return Chatty;
